@@ -1,0 +1,39 @@
+# ============================================================
+# Smart Assistant - LangGraph multi-agent - requirements
+# Install:  pip install -r requirements.txt
+# ============================================================
+
+# Core building blocks: messages, @tool, prompts, Document
+langchain>=1.0.0
+langchain-core>=1.0.0
+langchain-community>=0.4.0        # PyPDFLoader
+langchain-text-splitters>=1.0.0   # RecursiveCharacterTextSplitter
+pypdf>=5.0.0                      # the PDF reader used by PyPDFLoader
+
+# Agents as graphs: StateGraph, ToolNode, tools_condition, MemorySaver
+langgraph>=1.0.0
+
+# LLM providers (same as the course): Gemini (chat + embeddings) or Groq (chat)
+langchain-google-genai>=4.0.0
+langchain-groq>=1.0.0
+
+# Hosted vector database for the RAG agent
+langchain-pinecone>=0.2.13
+pinecone>=7.0.0
+
+# Model Context Protocol: the official SDK + LangChain adapter (MCP tools -> LangChain tools)
+mcp>=1.24.0
+langchain-mcp-adapters>=0.3.0
+
+# `uv` gives us the `uvx` command that downloads + runs the Google workspace-mcp server
+uv>=0.5.0
+
+# Scheduled emails ("send tomorrow at 9am")
+apscheduler>=3.10,<4
+
+# Pretty terminal output: panels, tables, colours, spinners
+rich>=13.0.0
+
+# Reads API keys from the .env file
+python-dotenv>=1.0.0
+pydantic>=2.0.0
