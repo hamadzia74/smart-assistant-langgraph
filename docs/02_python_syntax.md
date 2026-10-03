@@ -33,18 +33,18 @@ The import only runs if that branch runs. So a user of Groq doesn't need the Gem
 def has_key(name: str) -> bool:
 ```
 
-* `name: str` → "name should be a string"
-* `-> bool` → "this function returns True/False"
+- `name: str` → "name should be a string"
+- `-> bool` → "this function returns True/False"
 
 Python does **not** enforce them at runtime. They are notes for humans and editors (VS Code shows errors and autocomplete). **But** LangChain and Pydantic **do read them**: `@tool` turns `query: str` into the tool's argument schema the LLM sees.
 
-| Hint | Means | Example value |
-|---|---|---|
-| `list[str]` | list of strings | `["rag", "gmail"]` |
-| `dict[str, int]` | keys are str, values int | `{"page": 3}` |
-| `tuple[bool, str]` | exactly 2 items: a bool then a str | `(True, "4 MCP tools")` |
-| `str \| Path` | either a str **or** a Path | `"a.pdf"` or `Path("a.pdf")` |
-| `list[BaseTool] \| str` | tools, or an error string | used in `mcp_servers.connect_all` |
+| Hint                    | Means                              | Example value                     |
+| ----------------------- | ---------------------------------- | --------------------------------- |
+| `list[str]`             | list of strings                    | `["rag", "gmail"]`                |
+| `dict[str, int]`        | keys are str, values int           | `{"page": 3}`                     |
+| `tuple[bool, str]`      | exactly 2 items: a bool then a str | `(True, "4 MCP tools")`           |
+| `str \| Path`           | either a str **or** a Path         | `"a.pdf"` or `Path("a.pdf")`      |
+| `list[BaseTool] \| str` | tools, or an error string          | used in `mcp_servers.connect_all` |
 
 ---
 
@@ -116,14 +116,14 @@ for t in tools:
 send_tool = next((t for t in mcp_tools if t.name == "send_gmail_message"), None)
 ```
 
-`all(...)` = True if every item is True (`agent_builder.py` approval: *all* risky calls approved?).
+`all(...)` = True if every item is True (`agent_builder.py` approval: _all_ risky calls approved?).
 
 ---
 
 ## 7. Dictionaries
 
 ```python
-os.getenv("GEMINI_MODEL", "gemini-2.5-flash")   # value, or the default if missing
+os.getenv("GEMINI_MODEL", "gemini-3.8-flash")   # value, or the default if missing
 doc.metadata.get("page", 0)                     # same idea for dicts
 {"messages": [response]}                        # a node's "state update"
 name, _, argument = command.partition(" ")      # "/upload a.pdf" -> "/upload", " ", "a.pdf"
@@ -142,9 +142,10 @@ def search_pdf(query: str) -> str:
 ```
 
 A decorator **wraps** the function below it. `@tool` turns a normal function into a LangChain `Tool` object with:
-* `.name` → `"search_pdf"` (from the function name)
-* `.description` → the **docstring** (so the docstring is a prompt for the LLM!)
-* `.args` → `{"query": {"type": "string"}}` (from the type hints)
+
+- `.name` → `"search_pdf"` (from the function name)
+- `.description` → the **docstring** (so the docstring is a prompt for the LLM!)
+- `.args` → `{"query": {"type": "string"}}` (from the type hints)
 
 ---
 
@@ -204,11 +205,12 @@ asyncio.run(main())                                # start the event loop, run m
 ```
 
 Rules of thumb:
-* You can only use `await` **inside** an `async def`.
-* LangChain: `invoke` ↔ `ainvoke`, `stream` ↔ `astream` (the "a" = async version).
-* **MCP tools are async-only**, which is why our whole graph is async (`graph.ainvoke`).
-* `await asyncio.to_thread(func, arg)` runs a normal **blocking** function (like `input()` or `ingest_pdf`) in a helper thread, so the event loop stays free. That's how scheduled emails can fire while the app waits for your typing.
-* `await asyncio.wait_for(x, timeout=120)` gives up after 120 seconds.
+
+- You can only use `await` **inside** an `async def`.
+- LangChain: `invoke` ↔ `ainvoke`, `stream` ↔ `astream` (the "a" = async version).
+- **MCP tools are async-only**, which is why our whole graph is async (`graph.ainvoke`).
+- `await asyncio.to_thread(func, arg)` runs a normal **blocking** function (like `input()` or `ingest_pdf`) in a helper thread, so the event loop stays free. That's how scheduled emails can fire while the app waits for your typing.
+- `await asyncio.wait_for(x, timeout=120)` gives up after 120 seconds.
 
 ---
 

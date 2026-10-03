@@ -56,7 +56,7 @@ def get_chat_model(temperature: float = 0.0) -> BaseChatModel:
         # Import INSIDE the if: the package is only needed when this branch runs.
         from langchain_google_genai import ChatGoogleGenerativeAI
 
-        model = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
+        model = os.getenv("GEMINI_MODEL", "gemini-3.8-flash")
         return ChatGoogleGenerativeAI(model=model, temperature=temperature)
 
     if has_key("GROQ_API_KEY"):
@@ -73,9 +73,9 @@ def get_chat_model(temperature: float = 0.0) -> BaseChatModel:
 
 
 def chat_model_name() -> str:
-    """A friendly label for the startup banner, e.g. 'Gemini (gemini-2.5-flash)'."""
+    """A friendly label for the startup banner, e.g. 'Gemini (gemini-3.8-flash)'."""
     if has_key("GOOGLE_API_KEY"):
-        return f"Gemini ({os.getenv('GEMINI_MODEL', 'gemini-2.5-flash')})"
+        return f"Gemini ({os.getenv('GEMINI_MODEL', 'gemini-3.8-flash')})"
     if has_key("GROQ_API_KEY"):
         return f"Groq ({os.getenv('GROQ_MODEL', 'openai/gpt-oss-120b')})"
     return "none"

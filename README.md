@@ -2,13 +2,13 @@
 
 One terminal chatbot, five helpers. A **🧭 Supervisor** reads your message and hands it to the right sub-agent:
 
-| Agent | What it does | Powered by |
-|---|---|---|
-| 📚 **RAG Agent** | Answers questions from **any PDF** you upload, with page citations | Pinecone (hosted vector DB) + Gemini embeddings |
-| 🐙 **GitHub Agent** | Answers anything about repos, issues, PRs, commits, files (read-only) | GitHub's official **MCP** server |
-| 📅 **Calendar Agent** | Reads your meetings, checks free time, creates / moves / cancels meetings (with Meet links) | `workspace-mcp` **MCP** server (Calendar tools) |
-| 📧 **Gmail Agent** | Reads & searches mail, writes drafts, sends emails, **schedules** emails for later | `workspace-mcp` **MCP** server (Gmail tools) + APScheduler |
-| 💬 **Assistant** | Greetings and general questions | Gemini |
+| Agent                 | What it does                                                                                | Powered by                                                 |
+| --------------------- | ------------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
+| 📚 **RAG Agent**      | Answers questions from **any PDF** you upload, with page citations                          | Pinecone (hosted vector DB) + Gemini embeddings            |
+| 🐙 **GitHub Agent**   | Answers anything about repos, issues, PRs, commits, files (read-only)                       | GitHub's official **MCP** server                           |
+| 📅 **Calendar Agent** | Reads your meetings, checks free time, creates / moves / cancels meetings (with Meet links) | `workspace-mcp` **MCP** server (Calendar tools)            |
+| 📧 **Gmail Agent**    | Reads & searches mail, writes drafts, sends emails, **schedules** emails for later          | `workspace-mcp` **MCP** server (Gmail tools) + APScheduler |
+| 💬 **Assistant**      | Greetings and general questions                                                             | Gemini                                                     |
 
 Anything that **sends or changes** something (send email, schedule email, create/update/delete meeting) asks you **✅ Approve? [y/n]** first.
 
@@ -35,9 +35,11 @@ Anything that **sends or changes** something (send email, schedule email, create
 
 ## 🚀 Quick start (Windows PowerShell)
 
+Use Python 3.11–3.13. Python 3.14 is not yet supported by `langchain-pinecone`.
+
 ```powershell
 cd D:\office\langraph-agent
-python -m venv .venv
+py -3.13 -m venv .venv
 .\.venv\Scripts\Activate.ps1          # if blocked: Set-ExecutionPolicy -Scope Process Bypass
 pip install -r requirements.txt
 copy .env.example .env                # then paste your keys into .env  (see docs/01_setup.md)
@@ -51,19 +53,19 @@ Only `GOOGLE_API_KEY` is required to start. Every other agent switches on when i
 
 ## 📖 Learn the code (read in this order)
 
-| # | Document | You will learn |
-|---|---|---|
-| 0 | [docs/00_overview.md](docs/00_overview.md) | The big picture, the life of one message, a glossary |
-| 1 | [docs/01_setup.md](docs/01_setup.md) | Getting every key: Gemini, Pinecone, GitHub, Google Cloud OAuth |
-| 2 | [docs/02_python_syntax.md](docs/02_python_syntax.md) | Every Python feature used in this project, explained simply |
-| 3 | [docs/03_utils_and_ui.md](docs/03_utils_and_ui.md) | `utils.py` and `ui.py`, line by line |
-| 4 | [docs/04_rag_agent.md](docs/04_rag_agent.md) | `rag_core.py`, `ingest.py`, `rag_agent.py`: RAG with a hosted vector DB |
-| 5 | [docs/05_agent_builder.md](docs/05_agent_builder.md) | `agent_builder.py`: the ReAct loop + human approval |
-| 6 | [docs/06_mcp_agents.md](docs/06_mcp_agents.md) | `mcp_servers.py` + GitHub / Calendar / Gmail agents + `scheduler.py` |
-| 7 | [docs/07_supervisor_and_main.md](docs/07_supervisor_and_main.md) | `supervisor.py` + `main.py`: routing, subgraphs, memory, the chat loop |
-| 8 | [docs/08_try_it.md](docs/08_try_it.md) | Example prompts for every agent |
-| 9 | [docs/09_troubleshooting.md](docs/09_troubleshooting.md) | Common errors and their fixes |
-| 10 | [docs/10_exercises.md](docs/10_exercises.md) | Small tasks to practise and extend the project |
+| #   | Document                                                         | You will learn                                                          |
+| --- | ---------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| 0   | [docs/00_overview.md](docs/00_overview.md)                       | The big picture, the life of one message, a glossary                    |
+| 1   | [docs/01_setup.md](docs/01_setup.md)                             | Getting every key: Gemini, Pinecone, GitHub, Google Cloud OAuth         |
+| 2   | [docs/02_python_syntax.md](docs/02_python_syntax.md)             | Every Python feature used in this project, explained simply             |
+| 3   | [docs/03_utils_and_ui.md](docs/03_utils_and_ui.md)               | `utils.py` and `ui.py`, line by line                                    |
+| 4   | [docs/04_rag_agent.md](docs/04_rag_agent.md)                     | `rag_core.py`, `ingest.py`, `rag_agent.py`: RAG with a hosted vector DB |
+| 5   | [docs/05_agent_builder.md](docs/05_agent_builder.md)             | `agent_builder.py`: the ReAct loop + human approval                     |
+| 6   | [docs/06_mcp_agents.md](docs/06_mcp_agents.md)                   | `mcp_servers.py` + GitHub / Calendar / Gmail agents + `scheduler.py`    |
+| 7   | [docs/07_supervisor_and_main.md](docs/07_supervisor_and_main.md) | `supervisor.py` + `main.py`: routing, subgraphs, memory, the chat loop  |
+| 8   | [docs/08_try_it.md](docs/08_try_it.md)                           | Example prompts for every agent                                         |
+| 9   | [docs/09_troubleshooting.md](docs/09_troubleshooting.md)         | Common errors and their fixes                                           |
+| 10  | [docs/10_exercises.md](docs/10_exercises.md)                     | Small tasks to practise and extend the project                          |
 
 ---
 
@@ -96,12 +98,12 @@ langraph-agent/
 
 ## 🔗 How it relates to the course
 
-| Course lecture (06_LangChain Langgraph) | Used here in |
-|---|---|
-| 02/03 nodes, edges, conditional edges | `supervisor.py`, `agent_builder.py` |
-| 04 ReAct agent, `ToolNode`, `tools_condition` | `agent_builder.py` |
-| 05 memory, `MemorySaver`, `thread_id` | `supervisor.py`, `main.py` |
-| 06 human-in-the-loop | approval node in `agent_builder.py` |
-| 07 RAG agent | `rag_core.py`, `rag_agent.py` (now with **Pinecone** instead of in-memory) |
-| 08 MCP | `mcp_servers.py` (now **real** servers instead of a simulated one) |
-| `utils.get_chat_model()` | `utils.py` (same Gemini → Groq priority) |
+| Course lecture (06_LangChain Langgraph)       | Used here in                                                               |
+| --------------------------------------------- | -------------------------------------------------------------------------- |
+| 02/03 nodes, edges, conditional edges         | `supervisor.py`, `agent_builder.py`                                        |
+| 04 ReAct agent, `ToolNode`, `tools_condition` | `agent_builder.py`                                                         |
+| 05 memory, `MemorySaver`, `thread_id`         | `supervisor.py`, `main.py`                                                 |
+| 06 human-in-the-loop                          | approval node in `agent_builder.py`                                        |
+| 07 RAG agent                                  | `rag_core.py`, `rag_agent.py` (now with **Pinecone** instead of in-memory) |
+| 08 MCP                                        | `mcp_servers.py` (now **real** servers instead of a simulated one)         |
+| `utils.get_chat_model()`                      | `utils.py` (same Gemini → Groq priority)                                   |
